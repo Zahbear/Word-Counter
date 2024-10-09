@@ -8,7 +8,7 @@ import java.util.*;
 
 
 class Config {
-    private static final String CONFIG_FILE = "config.properties"; // Todo: change to properties.cfg
+    private static final String CONFIG_FILE = "properties.cfg"; //
     private static final Properties properties = new Properties();
 
     public static int getWordCountLimit() {
@@ -111,13 +111,45 @@ public class Main {
         System.out.printf("Thank you for being a guest in my WordcounterWithMenu dimension!\n");
     }
 
+//    private static void selectFile() {
+//        Scanner scanner = new Scanner(System.in);
+//        boolean fileSelected = false;
+//
+//        while (!fileSelected) {
+//            System.out.println("Enter new file path: (Format /home/folder/file.extension)");
+//            setFilePath(scanner.nextLine());
+//
+//            try {
+//                if (isFileValid(filePath)) {
+//                    fileContents = readFile(filePath);
+//                    System.out.println("File selected and read successfully.");
+//                    fileSelected = true;
+//                    Config.setWordCountLimit(420);// resets limit to prior changes
+//                } else {
+//                    throw new IOException("File validation failed. Please select a valid file.");
+//                }
+//            } catch (IOException e) {
+//                System.out.println(e.getMessage());
+//            }
+//        }
+//    }
+
+    // Version with exit from file selection
     private static void selectFile() {
         Scanner scanner = new Scanner(System.in);
         boolean fileSelected = false;
 
         while (!fileSelected) {
-            System.out.println("Enter new file path: (Format /home/folder/file.extension)");
-            setFilePath(scanner.nextLine());
+            System.out.println("Enter new file path: (Format /home/folder/file.extension) or 'q' to cancel:");
+            String input = scanner.nextLine();
+
+            // Check if user wants to quit
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("File selection canceled.");
+                return; // Exit the method
+            }
+
+            setFilePath(input);
 
             try {
                 if (isFileValid(filePath)) {
@@ -125,6 +157,8 @@ public class Main {
                     System.out.println("File selected and read successfully.");
                     fileSelected = true;
                     Config.setWordCountLimit(420);// resets limit to prior changes
+                    // Call analyzeFile() immediately after file selection
+                    analyzeFile();
                 } else {
                     throw new IOException("File validation failed. Please select a valid file.");
                 }
@@ -172,7 +206,8 @@ public class Main {
                 printWordCountSubMenu();
 
                 // Now, print the word count results based on user's choices
-                printWordCountResults(wordCountMap);
+                //printWordCountResults(wordCountMap);
+                // Lets not print it here
             }
         } catch (Exception e) {
             System.err.println("An error occurred: " + e.getMessage());
@@ -193,7 +228,9 @@ public class Main {
     private static void printWordCountSubMenu() {
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
+        boolean exitAnalyzeMenu = false;
+
+        while (!exitAnalyzeMenu) {
             System.out.println("Analyze File");
             System.out.println("1. Print File Contents");
             System.out.println("2. Print Wordcount Results");
@@ -218,7 +255,8 @@ public class Main {
                     selectFormat();
                     break;
                 case 0:
-                    return; // Return to the previous menu
+                    exitAnalyzeMenu = true;
+                    break; // Return to the previous menu
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
@@ -346,16 +384,6 @@ public class Main {
         System.out.println(fileContents);
     }
 }
-
-
-
-
-// 4, 6, 1 , 3, 5, 2, 7, 9
-// 4 , 6
-// 6 , 1
-// 4 , 1, 6, 3, 5, 2, 7, 9
-// 4,
-
 
 
 
