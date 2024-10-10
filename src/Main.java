@@ -111,29 +111,6 @@ public class Main {
         System.out.printf("Thank you for being a guest in my WordcounterWithMenu dimension!\n");
     }
 
-//    private static void selectFile() {
-//        Scanner scanner = new Scanner(System.in);
-//        boolean fileSelected = false;
-//
-//        while (!fileSelected) {
-//            System.out.println("Enter new file path: (Format /home/folder/file.extension)");
-//            setFilePath(scanner.nextLine());
-//
-//            try {
-//                if (isFileValid(filePath)) {
-//                    fileContents = readFile(filePath);
-//                    System.out.println("File selected and read successfully.");
-//                    fileSelected = true;
-//                    Config.setWordCountLimit(420);// resets limit to prior changes
-//                } else {
-//                    throw new IOException("File validation failed. Please select a valid file.");
-//                }
-//            } catch (IOException e) {
-//                System.out.println(e.getMessage());
-//            }
-//        }
-//    }
-
     // Version with exit from file selection
     private static void selectFile() {
         Scanner scanner = new Scanner(System.in);
@@ -158,7 +135,7 @@ public class Main {
                     fileSelected = true;
                     Config.setWordCountLimit(420);// resets limit to prior changes
                     // Call analyzeFile() immediately after file selection
-                    analyzeFile();
+//                    analyzeFile();
                 } else {
                     throw new IOException("File validation failed. Please select a valid file.");
                 }
@@ -204,10 +181,6 @@ public class Main {
 
                 // Submenu for word count options
                 printWordCountSubMenu();
-
-                // Now, print the word count results based on user's choices
-                //printWordCountResults(wordCountMap);
-                // Lets not print it here
             }
         } catch (Exception e) {
             System.err.println("An error occurred: " + e.getMessage());
